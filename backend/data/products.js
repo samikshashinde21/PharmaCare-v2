@@ -2,11 +2,11 @@ const products = [
   {
   
     name: 'Airpods Wireless Bluetooth Headphones',
-    image: '/images/airpods.jpg',
+    image: '/images/venusia.jpg',
     description:
       'Bluetooth technology lets you connect it with compatible devices wirelessly High-quality AAC audio offers immersive listening experience Built-in microphone allows you to take calls while working',
     brand: 'Apple',
-    category: 'Electronics',
+    category: 'Skin Care',
     price: 89.99,
     countInStock: 10,
     rating: 4.5,
@@ -15,7 +15,7 @@ const products = [
   {
     
     name: 'iPhone 11 Pro 256GB Memory',
-    image: '/images/phone.jpg',
+    image: '/images/moiz.jpg',
     description:
       'Introducing the iPhone 11 Pro. A transformative triple-camera system that adds tons of capability without complexity. An unprecedented leap in battery life',
     brand: 'Apple',
@@ -54,7 +54,7 @@ const products = [
   {
     
     name: 'Logitech G-Series Gaming Mouse',
-    image: '/images/mouse.jpg',
+    image: '/images/cetaphil.jpg',
     description:
       'Get a better handle on your games with this Logitech LIGHTSYNC gaming mouse. The six programmable buttons allow customization for a smooth playing experience',
     brand: 'Logitech',
