@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { updateCart } from "../utils/cartUtils";
+import { act } from "react";
 
 const initialState = localStorage.getItem("cart") 
 ? JSON.parse(localStorage.getItem("cart")) 
-: {cartItems : []};
+: {cartItems : [], shippingAddress : {}, paymentMethod : 'PayPal'};
 
 //helper function, to make sure equal decimal everywhere in the pricing
 
@@ -34,11 +35,16 @@ const cartSlice = createSlice({
         );
 
         return updateCart(state);
+        },
+
+        saveShippingAddress : (state, action) => {
+            state.shippingAddress = action.payload;
+            return updateCart(state);
         }
 
     },
 });
 
-export const {addToCart, removeFromCart} = cartSlice.actions;
+export const {addToCart, removeFromCart, saveShippingAddress} = cartSlice.actions;
 
 export default cartSlice.reducer;
