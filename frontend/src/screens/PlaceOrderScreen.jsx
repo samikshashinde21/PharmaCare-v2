@@ -110,28 +110,28 @@ const PlaceOrderScreen = () => {
               <ListGroup.Item>
                 <Row>
                   <Col> Items : </Col>
-                  <Col>Rs.{cart.itemsPrice}</Col>
+                  <Col>${cart.itemsPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
                   <Col> Shipping : </Col>
-                  <Col>Rs.{cart.shippingPrice}</Col>
+                  <Col>${cart.shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
                   <Col> Tax : </Col>
-                  <Col>Rs.{cart.taxPrice}</Col>
+                  <Col>${cart.taxPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
                   <Col> Total : </Col>
-                  <Col>Rs.{cart.totalPrice}</Col>
+                  <Col>${cart.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
 

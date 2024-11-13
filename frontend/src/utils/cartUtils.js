@@ -8,7 +8,7 @@ export const updateCart = (state) => {
     state.itemsPrice = addDecimals(state.cartItems.reduce((acc, item) => acc + item.price * item.qty, 0));
 
 
-    //Calculate shipping price (If order is above Rs.500 then free, else Rs.40)
+    //Calculate shipping price (If order is above $500 then free, else $40)
     state.shippingPrice = addDecimals(state.itemsPrice > 500 ? 0 : 40);
 
 
