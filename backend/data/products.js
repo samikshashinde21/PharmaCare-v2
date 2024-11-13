@@ -38,7 +38,7 @@ const products = [
   ,
     {
       name: "Amrutanjan Relief Nasal Inhaler - 0.75g",
-      image: "/images/amrutanjan_nasal_inhaler.jpg",
+      image: "/images/amrutanjan_nose_inhaler.jpg",
       description:
         "Amrutanjan Relief Nasal Inhaler is known to offer relief from nasal congestion. Enriched with the goodness of mint, camphor and eucalyptus, the inhaler can prove to be your best friend as you try to deal with that fussy, blocked nose. Adults can inhale it as many times as they require for relief from nasal congestion. Prepared with herbal ingredients, it is an excellent way to clear breathing.",
       brand: "Amrutanjan",
@@ -52,7 +52,7 @@ const products = [
     },
     {
       name: "Dettol Clinical Strength Antiseptic Hand Rub Sanitizer - 500 Ml",
-      image: "/images/dettol_hand_sanitizer.jpg",
+      image: "/images/dettol_disinfectant.jpg",
       description:
         "One of the safest and trusted brands in hygiene is Dettol. This Dettol Hand Sanitizer has an antimicrobial effect. It works against bacteria, fungus, viruses and other germs. Dettol Hand Sanitizer has 99.99% efficacy against killing germs. This is a specially formulated hand sanitiser with ingredients used in premises with the maximum antimicrobial load. It's infused with emollients and humectants to ensure the hands do not feel dry and sticky after use.",
       brand: "Dettol",
@@ -194,7 +194,7 @@ const products = [
           },
           {
             name: "Baidyanath Chyawanprash Special - Immunity & Omniprotection | 52 Ayurvedic Ingredients - 500g",
-            image: "/images/revital_h_women.jpg",
+            image: "/images/baidyanath_chyawanprash.jpg",
             description: "Baidyanath Chyawanprash is an excellent immunity booster. It can relieve symptoms of premature ageing, weight loss, indigestion, disability and prevents you from getting viral infections. It is a great source to fulfil your vitamin and mineral requirements.",
             brand: "BAIDYANATH",
             category: "Ayurvedic",
@@ -248,7 +248,7 @@ const products = [
         
           {
             name: "Dettol Disinfectant Sanitizer Spray Bottle - Spring Blossom, 225ml",
-            image: "/images/dettol_disinfectant_sanitizer_spray_bottle.jpg",
+            image: "/images/dettol_disinfectant_spray.jpg",
             description: "Dettol Disinfectant spray sanitizer is an alcohol-based multi-purpose spray that can be used to eliminate harmful bacteria or viruses from various surfaces. It is effective in killing a majority of viruses, including SARS-Cov-2. The spring blossom fragrance leaves the sanitized area smelling fresh. It is great for sanitizing both soft and hard surfaces like furniture, kitchen sinks, toilet areas, dustbins, packages, carpets, and car seats.",
             brand: "DETTOL",
             category: "Cleaning & Hygiene",
@@ -274,7 +274,7 @@ const products = [
           },
           {
             name: "Liveasy Wellness Vitamin C (990mg) With Zinc (10mg) - Powerful Immunity Booster - 60 Veg Tablets",
-            image: "/images/liveasy_wellness_vitamin_c_990mg_with_zinc_10mg.jpg",
+            image: "/images/liveasy_wellness_vitamin.jpg",
             description: "LivEasy Wellness Vitamin C (990mg) with Zinc (10mg) supports immune health and helps in tissue repair, wound healing, and bone strengthening. Vitamin C protects cells from oxidative damage and prevents common cold and seasonal allergies. Zinc activates the body's defense mechanism and prevents infections.",
             brand: "LIVEASY",
             category: "Supplements",
