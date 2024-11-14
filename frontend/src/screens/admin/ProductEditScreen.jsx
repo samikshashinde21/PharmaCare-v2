@@ -19,7 +19,7 @@ const ProductEditScreen = () => {
   const [image, setImage] = useState("")
   const [brand, setBrand] = useState("")
   const [category, setCategory] = useState("")
-  const [countInStock, setCountInStock] = useState("")
+  const [countInStock, setCountInStock] = useState(0)
   const [description, setDescription] = useState("")
 
   const {
@@ -32,7 +32,7 @@ const ProductEditScreen = () => {
   const [updateProduct, { isLoading: loadingUpdate }] =
     useUpdateProductMutation()
 
-  const [uploadProductImage, { isLoading: loadinUpload }] =
+  const [uploadProductImage, { isLoading: loadingUpload }] =
     useUploadProductImageMutation()
 
   const navigate = useNavigate()
@@ -62,21 +62,23 @@ const ProductEditScreen = () => {
       description,
     }
 
-    const result = await updateProduct(updatedProduct)
-    if (result.error) {
-      toast.error(result.error)
-    } else {
-      toast.success("Product Updated")
+    try {
+      await updateProduct(updatedProduct).unwrap()
+      toast.success("Product Updated Successfully")
       navigate("/admin/productlist")
+    } catch (err) {
+      toast.error(err.data?.message || err.message)
     }
   }
 
   const uploadFileHandler = async (e) => {
+    const file = e.target.files[0]
     const formData = new FormData()
-    formData.append("image", e.target.files[0])
+    formData.append("image", file)
+
     try {
       const res = await uploadProductImage(formData).unwrap()
-      toast.success(res.message)
+      toast.success("Image uploaded successfully!")
       setImage(res.image)
     } catch (err) {
       toast.error(err?.data?.message || err.error)
@@ -98,7 +100,7 @@ const ProductEditScreen = () => {
           <Message variant="danger">{error}</Message>
         ) : (
           <Form onSubmit={submitHandler}>
-            <Form.Group controlId="name" className="'my-2">
+            <Form.Group controlId="name" className="my-2">
               <Form.Label>Name</Form.Label>
               <Form.Control
                 type="text"
@@ -108,7 +110,7 @@ const ProductEditScreen = () => {
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId="price" className="'my-2">
+            <Form.Group controlId="price" className="my-2">
               <Form.Label>Price</Form.Label>
               <Form.Control
                 type="number"
@@ -122,21 +124,21 @@ const ProductEditScreen = () => {
               <Form.Label>Image</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter Image Url"
+                placeholder="Enter Image URL"
                 value={image}
-                onChange={(e) => setImage}
+                onChange={(e) => setImage(e.target.value)} // Fixed setImage usage
               ></Form.Control>
 
               <Form.Control
                 type="file"
                 label="Choose file"
+                accept="image/*"
                 onChange={uploadFileHandler}
               ></Form.Control>
+              {loadingUpload && <Loader />}
             </Form.Group>
 
-            {loadinUpload && <Loader />}
-
-            <Form.Group controlId="brand" className="'my-2">
+            <Form.Group controlId="brand" className="my-2">
               <Form.Label>Brand</Form.Label>
               <Form.Control
                 type="text"
@@ -146,7 +148,7 @@ const ProductEditScreen = () => {
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId="countInStock" className="'my-2">
+            <Form.Group controlId="countInStock" className="my-2">
               <Form.Label>Count In Stock</Form.Label>
               <Form.Control
                 type="number"
@@ -156,7 +158,7 @@ const ProductEditScreen = () => {
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId="category" className="'my-2">
+            <Form.Group controlId="category" className="my-2">
               <Form.Label>Category</Form.Label>
               <Form.Control
                 type="text"
@@ -166,10 +168,11 @@ const ProductEditScreen = () => {
               ></Form.Control>
             </Form.Group>
 
-            <Form.Group controlId="description" className="'my-2">
+            <Form.Group controlId="description" className="my-2">
               <Form.Label>Description</Form.Label>
               <Form.Control
-                type="text"
+                as="textarea"
+                rows={3}
                 placeholder="Enter Description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}

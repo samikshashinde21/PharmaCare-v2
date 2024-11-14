@@ -40,10 +40,10 @@ const Footer = () => {
               </Accordion.Button>
               <Accordion.Collapse eventKey="1">
                 <Card.Body>
-                  <Link to="/order-medicine" className="d-block mb-2">
+                  <Link to="/" className="d-block mb-2">
                     Order Medicine
                   </Link>
-                  <Link to="/healthcare-products" className="d-block mb-2">
+                  <Link to="/healthcare" className="d-block mb-2">
                     Healthcare Products
                   </Link>
                   <Link to="/lab-tests" className="d-block mb-2">
@@ -70,7 +70,7 @@ const Footer = () => {
                   <Link to="/health-food-drinks" className="d-block mb-2">
                     Health Food and Drinks
                   </Link>
-                  <Link to="/beauty" className="d-block mb-2">
+                  <Link to="/makeup" className="d-block mb-2">
                     Beauty
                   </Link>
                 </Card.Body>
@@ -96,7 +96,6 @@ const Footer = () => {
             </Card>
           </Accordion>
 
-          {/* For large screen code */}
           <Row className="d-none d-lg-flex">
             <Col lg={3}>
               <h5>Company</h5>
@@ -142,25 +141,25 @@ const Footer = () => {
               <Link to="/health-food-drinks" className="d-block mb-2">
                 Health Food and Drinks
               </Link>
-              <Link to="/beauty" className="d-block mb-2">
+              <Link to="/category/makeup" className="d-block mb-2">
                 Beauty
               </Link>
-              <Link to="/beauty" className="d-block mb-2">
+              <Link to="/category/personal-care" className="d-block mb-2">
                 Skin Care
               </Link>
-              <Link to="/beauty" className="d-block mb-2">
+              <Link to="/category/home" className="d-block mb-2">
                 Home Care
               </Link>
-              <Link to="/beauty" className="d-block mb-2">
+              <Link to="/category/ayurvedic" className="d-block mb-2">
                 Ayurveda
               </Link>
-              <Link to="/beauty" className="d-block mb-2">
+              <Link to="/category/sexual-wellness" className="d-block mb-2">
                 Sexual Wellness
               </Link>
               <Link to="/beauty" className="d-block mb-2">
                 Fitness
               </Link>
-              <Link to="/beauty" className="d-block mb-2">
+              <Link to="/category/mother" className="d-block mb-2">
                 Mother & Baby Care
               </Link>
               <Link to="/beauty" className="d-block mb-2">

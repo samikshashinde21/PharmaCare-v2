@@ -51,7 +51,7 @@ const CategoryScreen = () => {
 
   // Handle "Go Back" button click
   const handleGoBack = () => {
-    navigate(-1) // This will take the user back to the previous page
+    navigate("/") // This will take the user back to the previous page
   }
 
   return (
