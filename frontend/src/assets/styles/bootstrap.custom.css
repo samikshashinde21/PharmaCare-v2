@@ -12164,3 +12164,53 @@ fieldset:disabled .btn {
 .no-underline {
   text-decoration: none !important;
 }
+
+
+.category-btn {
+  font-size: 1.2rem;
+  padding: 30px 60px; 
+  text-align: center;
+  border-radius: 8px; 
+  margin: 15px 0;
+/*   background-color: #00bfae;  */
+  color: black; 
+  border: none; 
+/*   box-shadow: 0 4px 8px rgba(15, 102, 105, 0.1);*/ 
+  transition: transform 0.2s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.category-container {
+  display: flex;
+  justify-content: space-evenly; 
+  flex-wrap: wrap; 
+  margin: 0 15px; 
+}
+
+.category-btn:hover {
+  transform: scale(1.05); 
+  background-color: rgb(13, 125, 116); 
+}
+
+h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.category-heading {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #333; 
+  font-weight: bold;
+  margin-top: 20px;
+  text-align: center;
+  padding-bottom: 10px;
+  border-bottom: 2px solid #ddd;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 10px; 
+  align-items: center;
+}
+

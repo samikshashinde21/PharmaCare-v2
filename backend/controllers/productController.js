@@ -5,7 +5,7 @@ import Product from '../models/productModel.js';
 //@route GET/api/products
 //@access Public
 
-const getProducts = asyncHandler(async (req, res) => {
+/* const getProducts = asyncHandler(async (req, res) => {
 
     const pageSize = 8 ;
     const page = Number(req.query.pageNumber) || 1;
@@ -20,7 +20,48 @@ const getProducts = asyncHandler(async (req, res) => {
     .limit(pageSize)
     .skip(pageSize * (page - 1));
     res.json({products, page, pages : Math.ceil(count/pageSize)});
-});
+}); */
+
+const getProducts = asyncHandler(async (req, res) => {
+    const pageSize = 8;
+    const page = Number(req.query.pageNumber) || 1;
+    const keyword = req.query.keyword
+      ? { name: { $regex: req.query.keyword, $options: "i" } }
+      : {};
+    const category = req.query.category || "";
+  
+    // Filter by multiple categories if provided
+    const categoryFilter = category
+      ? { category: { $in: category.split(",") } } // $in operator to match any category in the array
+      : {};
+  
+    const priceFilter = req.query.price;
+    let priceRangeFilter = {};
+    if (priceFilter) {
+      const [minPrice, maxPrice] = priceFilter.split("-").map(Number);
+      priceRangeFilter = { price: { $gte: minPrice, $lte: maxPrice } };
+    }
+  
+    // Combine all filters
+    const filter = { ...keyword, ...categoryFilter, ...priceRangeFilter };
+  
+    const count = await Product.countDocuments(filter);
+  
+    let sort = {};
+    if (req.query.sort === "price") {
+      sort = { price: 1 }; // Sort by price ascending
+    } else if (req.query.sort === "rating") {
+      sort = { rating: -1 }; // Sort by rating descending
+    }
+  
+    const products = await Product.find(filter)
+      .limit(pageSize)
+      .skip(pageSize * (page - 1))
+      .sort(sort);
+  
+    res.json({ products, page, pages: Math.ceil(count / pageSize) });
+  });
+  
 
 
 //@desc Fetch a product
@@ -163,6 +204,23 @@ const products = await Product.find({}).sort({rating : -1}).limit(3);
 res.status(200).json(products);
 });
 
+//@desc Get Products by category
+const getProductsByCategory = asyncHandler(async (req, res) => {
+    const pageSize = 8;
+    const page = Number(req.query.pageNumber) || 1;
+    const category = req.params.category;
+    const sortBy = req.query.sortBy || 'price'; // Default sorting by price
+    const sortOrder = req.query.sortOrder === 'desc' ? -1 : 1;
+
+    const count = await Product.countDocuments({ category });
+    const products = await Product.find({ category })
+        .sort({ [sortBy]: sortOrder })
+        .limit(pageSize)
+        .skip(pageSize * (page - 1));
+
+    res.json({ products, page, pages: Math.ceil(count / pageSize) });
+});
+  
 
 export {
     getProducts, 
@@ -171,4 +229,5 @@ export {
     updateProduct,
     deleteProduct,
     createProductReview,
-getTopProducts};
+    getTopProducts,
+    getProductsByCategory};
