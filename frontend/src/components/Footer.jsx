@@ -132,10 +132,8 @@ const Footer = () => {
 
             <Col lg={3}>
               <h5>Featured Categories</h5>
-              <Link to="/covid-essentials" className="d-block mb-2">
-                Covid Essentials
-              </Link>
-              <Link to="/personal-care" className="d-block mb-2">
+
+              <Link to="/category/personal-care" className="d-block mb-2">
                 Personal Care
               </Link>
               <Link to="/health-food-drinks" className="d-block mb-2">

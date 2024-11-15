@@ -343,6 +343,7 @@ blockquote {
 b,
 strong {
   font-weight: bolder;
+  color: black;
 }
 
 small,
@@ -6422,16 +6423,16 @@ fieldset:disabled .btn {
 
 .carousel-caption {
   position: absolute;
-  right: 15%;
+  right: 25%;
   bottom: 1.25rem;
-  left: 15%;
-  padding: 1.25rem;  /* Uniform padding */
-  color: #fff; /* White text color */
+  left: 25%;
+  padding: 1.25rem; 
+  color: #ffffffd3; /* White text color */
   text-align: center; /* Center the text */
   background: rgba(0, 0, 0, 0.5); /* Semi-transparent black background for contrast */
   border-radius: 5px; /* Rounded corners */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
-  font-weight: bold; /* Bold text */
+  font-weight: bold; 
 }
 
 
@@ -12177,6 +12178,7 @@ fieldset:disabled .btn {
   border: none; 
 /*   box-shadow: 0 4px 8px rgba(15, 102, 105, 0.1);*/ 
   transition: transform 0.2s ease-in-out, background-color 0.3s ease-in-out;
+  font-weight: 600;
 }
 
 .category-container {
@@ -12184,11 +12186,12 @@ fieldset:disabled .btn {
   justify-content: space-evenly; 
   flex-wrap: wrap; 
   margin: 0 15px; 
+
 }
 
 .category-btn:hover {
   transform: scale(1.05); 
-  background-color: rgb(13, 125, 116); 
+  background-color: rgb(111, 155, 151); 
 }
 
 h2 {

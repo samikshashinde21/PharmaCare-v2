@@ -112,12 +112,12 @@ const OrderScreen = () => {
     <Message variant="danger" />
   ) : (
     <>
-      <h1>Order {order._id}</h1>
+      <h1 style={{ textAlign: "center" }}>Your Order</h1>
       <Row>
         <Col md={8}>
           <ListGroup variant="flush">
             <ListGroup.Item>
-              <h2>Shipping</h2>
+              <h2 style={{ textAlign: "left" }}>Shipping</h2>
               <p>
                 <strong>Name: </strong> {order.user.name}
               </p>
@@ -139,21 +139,21 @@ const OrderScreen = () => {
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2>Payment Method</h2>
+              <h2 style={{ textAlign: "left" }}>Payment Method</h2>
               <p>
                 <strong>Method: </strong>
                 {order.paymentMethod}
               </p>
 
               {order.isPaid ? (
-                <Message variant="success">Paid on {order.paidAt}</Message>
+                <Message variant="success">Paid</Message>
               ) : (
                 <Message variant="danger">Not Paid</Message>
               )}
             </ListGroup.Item>
 
             <ListGroup.Item>
-              <h2>Order Items</h2>
+              <h2 style={{ textAlign: "left" }}>Order Items</h2>
               {order.orderItems.map((item, index) => (
                 <ListGroup.Item key={index}>
                   <Row>
@@ -185,22 +185,28 @@ const OrderScreen = () => {
 
               <ListGroup.Item>
                 <Row>
-                  <Col>Items</Col>
+                  <Col style={{ color: "black", fontWeight: "bold" }}>
+                    Items
+                  </Col>
                   <Col>Rs. {order.itemsPrice}</Col>
                 </Row>
 
                 <Row>
-                  <Col>Shipping</Col>
+                  <Col style={{ color: "black", fontWeight: "bold" }}>
+                    Shipping
+                  </Col>
                   <Col>Rs. {order.shippingPrice}</Col>
                 </Row>
 
                 <Row>
-                  <Col>Tax</Col>
+                  <Col style={{ color: "black", fontWeight: "bold" }}>Tax</Col>
                   <Col>Rs. {order.taxPrice}</Col>
                 </Row>
 
                 <Row>
-                  <Col>Total</Col>
+                  <Col style={{ color: "black", fontWeight: "bold" }}>
+                    Total
+                  </Col>
                   <Col>Rs. {order.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
