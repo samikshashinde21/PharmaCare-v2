@@ -1,4 +1,4 @@
-import { FaTimes } from "react-icons/fa"
+import { FaTimes, FaCheck } from "react-icons/fa"
 import { Table, Form, Button, Row, Col } from "react-bootstrap"
 import Message from "../../components/Message"
 import Loader from "../../components/Loader"
@@ -35,13 +35,7 @@ const OrderListScreen = () => {
                 <td>{order.user && order.user.name}</td>
                 <td>{order.createdAt.substring(0, 10)}</td>
                 <td>{order.totalPrice}</td>
-                <td>
-                  {order.isPaid ? (
-                    order.paidAt.substring(0, 10)
-                  ) : (
-                    <FaTimes style={{ color: "red" }} />
-                  )}
-                </td>
+                <FaCheck style={{ color: "green" }} />
                 <td>
                   {order.isDelivered ? (
                     order.deliveredAt.substring(0, 10)
@@ -50,7 +44,7 @@ const OrderListScreen = () => {
                   )}
                 </td>
                 <td>
-                  <LinkContainer to={`/order/Rs.{order._id}`}>
+                  <LinkContainer to={`/order/${order._id}`}>
                     <Button variant="light" className="btn-sm">
                       Details
                     </Button>

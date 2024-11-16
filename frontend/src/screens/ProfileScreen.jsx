@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Table, Form, Button, Row, Col } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
-import { FaTimes } from "react-icons/fa"
+import { FaTimes, FaCheck } from "react-icons/fa"
 
 import { toast } from "react-toastify"
 import Message from "../components/Message"
@@ -132,14 +132,15 @@ const ProfileScreen = () => {
                   <td>{order.totalPrice}</td>
                   <td>
                     {order.isPaid ? (
-                      order.paidAt.substring(0, 10)
+                      <FaCheck style={{ color: "green" }} />
                     ) : (
                       <FaTimes style={{ color: "red" }} />
                     )}
                   </td>
+
                   <td>
                     {order.isDelivered ? (
-                      order.deliveredAt.substring(0, 10)
+                      <FaCheck style={{ color: "green" }} />
                     ) : (
                       <FaTimes style={{ color: "red" }} />
                     )}
@@ -147,7 +148,7 @@ const ProfileScreen = () => {
                   <td>
                     <Button
                       as={Link}
-                      to={`/order/Rs.{order._id}`}
+                      to={`/order/${order._id}`}
                       className="btn-sm"
                       variant="light"
                     >
