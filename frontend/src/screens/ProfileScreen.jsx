@@ -15,13 +15,13 @@ const ProfileScreen = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const redirect = location.search ? location.search.split("=")[1] : "/"
+  //const redirect = location.search ? location.search.split("=")[1] : "/"
 
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
-  const [passwordError, setPasswordError] = useState("")
+  //const [passwordError, setPasswordError] = useState("")
 
   const { userInfo } = useSelector((state) => state.auth)
 
@@ -29,6 +29,12 @@ const ProfileScreen = () => {
 
   const [updateProfile, { isLoading: loadingUpdateProfile }] =
     useProfileMutation()
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/login")
+    }
+  }, [navigate, userInfo])
 
   useEffect(() => {
     setName(userInfo.name)
@@ -59,35 +65,24 @@ const ProfileScreen = () => {
     e.preventDefault()
 
     if (password !== confirmPassword) {
-      toast.error("Passwords do not match")
-    } else if (!validatePassword(password)) {
-      toast.error(
-        "Password must contain at least 8 characters, an uppercase letter, a lowercase letter, a digit, and a special character."
-      )
-    } else {
-      try {
-        const res = await updateProfile({
-          // NOTE: here we don't need the _id in the request payload as this is
-          // not used in our controller.
-          // _id: userInfo._id,
-          name,
-          email,
-          password,
-        }).unwrap()
-        dispatch(setCredentials({ ...res }))
-        toast.success("Profile updated successfully")
-      } catch (err) {
-        toast.error(err?.data?.message || err.error)
-      }
+      alert("Passwords do not match")
+      return
+    }
+
+    try {
+      const payload = { id: userInfo._id, name, email, password }
+      const res = await updateProfile(payload).unwrap()
+
+      // If update is successful, dispatch the updated user info to Redux
+      dispatch(setCredentials(res))
+
+      toast.success("Profile updated successfully")
+      navigate("/profile") // Redirect to the profile page
+    } catch (err) {
+      console.error("Error updating profile:", err)
+      toast.error("Failed to update profile")
     }
   }
-
-  useEffect(() => {
-    if (!userInfo) {
-      navigate("/login")
-    }
-  }, [navigate, userInfo])
-
   return (
     <Row>
       <Col md={3}>
@@ -100,7 +95,10 @@ const ProfileScreen = () => {
               type="text"
               placeholder="Enter name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={(e) => {
+                setName(e.target.value)
+                console.log("Name updated:", e.target.value)
+              }}
             ></Form.Control>
           </Form.Group>
 

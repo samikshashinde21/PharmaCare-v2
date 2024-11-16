@@ -1,6 +1,7 @@
 import asyncHandler from '../middleware/asyncHandler.js';
 import User from '../models/userModel.js'
 import generateToken from '../utils/generateToken.js';
+import bcrypt from 'bcryptjs';
 
 //@desc Auth user & get token
 //@route POST/api/users/login
@@ -108,17 +109,19 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     user.email = req.body.email || user.email;
   
 
-   if(req.body.password){
-    user.password = req.body.password;
-   }
 
+    if (req.body.password) {
+      const salt = await bcrypt.genSalt(10);  // Generate a salt
+      user.password = await bcrypt.hash(req.body.password, salt);  // Hash the password
+    }
+    
    const updatedUser = await user.save();
 
    res.status(200).json({
     _id: updatedUser._id,
-    name:updateUser.name,
+    name: updatedUser.name,
     email: updatedUser.email,
-    isAdmin : updateUser.isAdmin,
+    isAdmin : updatedUser.isAdmin,
    })
 
   }else{
