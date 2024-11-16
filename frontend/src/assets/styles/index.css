@@ -1,6 +1,11 @@
 main {
     min-height: 80vh;
   }
+
+  html {
+    scroll-behavior: smooth;
+  }
+  
   
   .rating span {
     margin: 0.1rem;

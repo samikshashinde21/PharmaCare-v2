@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react"
 import { Table, Form, Button, Row, Col } from "react-bootstrap"
 import { useDispatch, useSelector } from "react-redux"
 import { FaTimes, FaCheck } from "react-icons/fa"
-
+import { useNavigate, useLocation } from "react-router-dom"
 import { toast } from "react-toastify"
 import Message from "../components/Message"
 import Loader from "../components/Loader"
@@ -12,10 +12,16 @@ import { setCredentials } from "../slices/authSlice"
 import { Link } from "react-router-dom"
 
 const ProfileScreen = () => {
+  const navigate = useNavigate()
+  const location = useLocation()
+
+  const redirect = location.search ? location.search.split("=")[1] : "/"
+
   const [name, setName] = useState("")
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+  const [passwordError, setPasswordError] = useState("")
 
   const { userInfo } = useSelector((state) => state.auth)
 
@@ -30,10 +36,34 @@ const ProfileScreen = () => {
   }, [userInfo.email, userInfo.name])
 
   const dispatch = useDispatch()
+
+  // Function to validate the password
+  const validatePassword = (password) => {
+    const passwordConditions = [
+      /[A-Z]/, // Must contain an uppercase letter
+      /[a-z]/, // Must contain a lowercase letter
+      /\d/, // Must contain a digit
+      /[!@#$%^&*(),.?":{}|<>]/, // Must contain a special character
+      /.{8,}/, // Must be at least 8 characters long
+    ]
+
+    for (let condition of passwordConditions) {
+      if (!condition.test(password)) {
+        return false
+      }
+    }
+    return true
+  }
+
   const submitHandler = async (e) => {
     e.preventDefault()
+
     if (password !== confirmPassword) {
       toast.error("Passwords do not match")
+    } else if (!validatePassword(password)) {
+      toast.error(
+        "Password must contain at least 8 characters, an uppercase letter, a lowercase letter, a digit, and a special character."
+      )
     } else {
       try {
         const res = await updateProfile({
@@ -51,6 +81,12 @@ const ProfileScreen = () => {
       }
     }
   }
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/login")
+    }
+  }, [navigate, userInfo])
 
   return (
     <Row>
@@ -86,6 +122,10 @@ const ProfileScreen = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             ></Form.Control>
+            <Form.Text className="text-muted">
+              Password must be at least 8 characters long, contain an uppercase
+              letter, a lowercase letter, a number, and a special character.
+            </Form.Text>
           </Form.Group>
 
           <Form.Group className="my-2" controlId="confirmPassword">
@@ -98,19 +138,26 @@ const ProfileScreen = () => {
             ></Form.Control>
           </Form.Group>
 
-          <Button type="submit" variant="primary">
-            Update
+          <Button
+            type="submit"
+            variant="primary"
+            disabled={loadingUpdateProfile}
+          >
+            {loadingUpdateProfile ? "Updating..." : "Update"}
           </Button>
           {loadingUpdateProfile && <Loader />}
         </Form>
       </Col>
+
       <Col md={9}>
         <h2>My Orders</h2>
         {isLoading ? (
           <Loader />
         ) : error ? (
           <Message variant="danger">
-            {error?.data?.message || error.error}
+            {error?.data?.message ||
+              error?.error ||
+              "An error occurred while fetching orders."}
           </Message>
         ) : (
           <Table striped hover responsive className="table-sm">
@@ -137,7 +184,6 @@ const ProfileScreen = () => {
                       <FaTimes style={{ color: "red" }} />
                     )}
                   </td>
-
                   <td>
                     {order.isDelivered ? (
                       <FaCheck style={{ color: "green" }} />
@@ -164,5 +210,4 @@ const ProfileScreen = () => {
     </Row>
   )
 }
-
 export default ProfileScreen

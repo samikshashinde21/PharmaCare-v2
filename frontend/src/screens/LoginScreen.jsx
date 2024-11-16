@@ -12,6 +12,7 @@ import { toast } from "react-toastify"
 const LoginScreen = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [passwordError, setPasswordError] = useState("")
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -30,8 +31,35 @@ const LoginScreen = () => {
     }
   }, [navigate, redirect, userInfo])
 
+  // Function to validate the password
+  const validatePassword = (password) => {
+    const passwordConditions = [
+      /[A-Z]/, // At least one uppercase letter
+      /[a-z]/, // At least one lowercase letter
+      /\d/, // At least one number
+      /[!@#$%^&*(),.?":{}|<>]/, // At least one special character
+      /.{8,}/, // Minimum length of 8 characters
+    ]
+
+    for (let condition of passwordConditions) {
+      if (!condition.test(password)) {
+        return false
+      }
+    }
+    return true
+  }
+
   const submitHandler = async (e) => {
     e.preventDefault()
+
+    // Validate password before submitting
+    if (!validatePassword(password)) {
+      setPasswordError(
+        "Password must be at least 8 characters long, contain an uppercase letter, a number, and a special character."
+      )
+      return
+    }
+
     try {
       const res = await login({ email, password }).unwrap()
       dispatch(setCredentials({ ...res }))
@@ -64,6 +92,9 @@ const LoginScreen = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
+          {passwordError && (
+            <Form.Text className="text-danger">{passwordError}</Form.Text>
+          )}
         </Form.Group>
 
         <Button disabled={isLoading} type="submit" variant="primary">

@@ -14,6 +14,7 @@ const RegisterScreen = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
+  const [passwordError, setPasswordError] = useState("")
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -32,11 +33,33 @@ const RegisterScreen = () => {
     }
   }, [navigate, redirect, userInfo])
 
+  // Function to validate the password
+  const validatePassword = (password) => {
+    const passwordConditions = [
+      /[A-Z]/, // At least one uppercase letter
+      /[a-z]/, // At least one lowercase letter
+      /\d/, // At least one number
+      /[!@#$%^&*(),.?":{}|<>]/, // At least one special character
+      /.{8,}/, // Minimum length of 8 characters
+    ]
+
+    for (let condition of passwordConditions) {
+      if (!condition.test(password)) {
+        return false
+      }
+    }
+    return true
+  }
+
   const submitHandler = async (e) => {
     e.preventDefault()
 
     if (password !== confirmPassword) {
       toast.error("Passwords do not match")
+    } else if (!validatePassword(password)) {
+      setPasswordError(
+        "Password must be at least 8 characters long, contain an uppercase letter, a number, and a special character."
+      )
     } else {
       try {
         const res = await register({ name, email, password }).unwrap()
@@ -81,6 +104,9 @@ const RegisterScreen = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
+          {passwordError && (
+            <Form.Text className="text-danger">{passwordError}</Form.Text>
+          )}
         </Form.Group>
 
         <Form.Group className="my-2" controlId="confirmPassword">
