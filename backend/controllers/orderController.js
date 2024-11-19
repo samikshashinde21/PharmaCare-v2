@@ -7,7 +7,11 @@ import Order from '../models/orderModel.js'
 //@access Private
 
 const addOrderItems = asyncHandler(async(req, res) => {
-   const{ orderItems, 
+    console.log('Request received in addOrderItems controller');
+    console.log('Request body:', req.body); // Log the request body to ensure it's being sent correctly
+    console.log('User in request:', req.user);
+  
+    const{ orderItems, 
     shippingAddress,
     paymentMethod,
     itemsPrice,
@@ -129,5 +133,4 @@ export {
     updateOrderToDelivered,
     getOrders
 };
-
 

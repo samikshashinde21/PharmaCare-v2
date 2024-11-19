@@ -30,4 +30,3 @@ router.route('/:id')
 .put(protect, admin, updateUser);
 
 export default router;  
-

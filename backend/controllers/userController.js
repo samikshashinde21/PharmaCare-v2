@@ -198,7 +198,7 @@ const updateUser = asyncHandler(async (req, res) => {
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
-      isAdmin: updateUser.isAdmin,
+      isAdmin: updatedUser.isAdmin,
     });
    }else{
     res.status(404)
