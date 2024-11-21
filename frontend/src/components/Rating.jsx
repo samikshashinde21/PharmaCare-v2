@@ -53,7 +53,8 @@ const Rating = ({ value, text }) => {
         )}
       </span>
 
-      <span className="rating-text">{text && text}</span>
+      {/* Add space between stars and text */}
+      {text && <span className="rating-text">{text}</span>}
     </div>
   )
 }
