@@ -6,26 +6,52 @@ import bcrypt from 'bcryptjs';
 //@desc Auth user & get token
 //@route POST/api/users/login
 //@access Public
-
 const authUser = asyncHandler(async (req, res) => {
- const {email, password} = req.body;
+  console.log("Incoming login request body:", req.body);
 
- const user = await User.findOne({email});
+  const { email, password } = req.body;
 
- if (user && (await user.matchPassword(password))) {
+  // Check if email and password are defined
+  if (!email || !password) {
+    console.log("Missing email or password in the request body");
+    res.status(400).json({ message: "Email and password are required" });
+    return;
+  }
 
-generateToken(res, user._id);
+  // Find the user by email
+  const user = await User.findOne({ email });
+  console.log("User found in database:", user);
+
+  if (!user) {
+    console.log("No user found with this email:", email);
+    res.status(401).json({ message: "Invalid email or password" });
+    return;  // Exit if no user is found
+  }
+
+  // Log the stored hashed password and the entered password
+  console.log("Stored hashed password:", user.password);
+  console.log("Entered password:", password);
+
+  // Check if password matches
+  const isMatch = await user.matchPassword(password);
+  console.log("Password match result:", isMatch);
+
+  if (!isMatch) {
+    console.log("Password mismatch for email:", email);
+    res.status(401).json({ message: "Invalid email or password" });
+    return;  // Exit if passwords don't match
+  }
+
+  // If user and password match, generate token and send response
+  console.log("Login successful for user:", user.email);
+  generateToken(res, user._id);
 
   res.status(200).json({
     _id: user._id,
     name: user.name,
     email: user.email,
-    isAdmin : user.isAdmin
+    isAdmin: user.isAdmin,
   });
- }else{
-  res.status(401);
-  throw new Error('Invalid email or password');
- }
 });
 
 //@desc Register user
@@ -101,39 +127,43 @@ const getUserProfile = asyncHandler(async (req, res) => {
 //@route PUT/api/users/profile
 //@access Private
 
-const updateUserProfile = asyncHandler(async (req, res) => {
-   const user = await User.findById(req.user._id);
-
-   if(user){
-    user.name = req.body.name || user.name;
-    user.email = req.body.email || user.email;
+  const updateUserProfile = asyncHandler(async (req, res) => {
+    console.log("Incoming profile update request body:", req.body);
   
-
-
-    if (req.body.password) {
-      const salt = await bcrypt.genSalt(10);  // Generate a salt
-      user.password = await bcrypt.hash(req.body.password, salt);  // Hash the password
-    }
+    // Fetch the user by their ID
+    const user = await User.findById(req.user._id);
     
-   const updatedUser = await user.save();
-
-   res.status(200).json({
-    _id: updatedUser._id,
-    name: updatedUser.name,
-    email: updatedUser.email,
-    isAdmin : updatedUser.isAdmin,
-   })
-
-  }else{
-    res.status(404);
-    throw new Error('User not found');
+    if (!user) {
+      console.log("No user found for profile update with ID:", req.user._id);
+      res.status(404).json({ message: 'User not found' });
+      return;
+    }
+  
+    // Update user's name and email, trimming to ensure no extra spaces
+    user.name = req.body.name?.trim() || user.name;
+    user.email = req.body.email?.trim() || user.email;
+  
+    if (req.body.password) {
+      // Only hash the password if it's plain text
+      const isPasswordAlreadyHashed = user.password.startsWith('$2a$'); // bcrypt hashed passwords start with this prefix
+      if (!isPasswordAlreadyHashed) {
+          user.password = bcrypt.hashSync(req.body.password, 10);
+      }
   }
-
+  
+    // Save the updated user information to the database
+    const updatedUser = await user.save();
+    console.log("User profile updated successfully:", updatedUser.email);
+  
+    // Respond with the updated user data
+    res.status(200).json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+    });
   });
-
-
-
-
+  
 //for admin who would be able to see all users
 
 //@desc Get users 

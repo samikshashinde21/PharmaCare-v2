@@ -60,7 +60,7 @@ const ProfileScreen = () => {
     }
     return true
   }
-
+  
   const submitHandler = async (e) => {
     e.preventDefault()
 
@@ -70,19 +70,19 @@ const ProfileScreen = () => {
     }
 
     try {
-      const payload = { id: userInfo._id, name, email, password }
+      const payload = { name, email, password: password || undefined }
       const res = await updateProfile(payload).unwrap()
 
-      // If update is successful, dispatch the updated user info to Redux
       dispatch(setCredentials(res))
 
       toast.success("Profile updated successfully")
-      navigate("/profile") // Redirect to the profile page
+      navigate("/profile")
     } catch (err) {
       console.error("Error updating profile:", err)
-      toast.error("Failed to update profile")
+      toast.error(err?.data?.message || "Failed to update profile")
     }
   }
+
   return (
     <>
       <div className="page-content">

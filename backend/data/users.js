@@ -20,6 +20,12 @@ const users = [
         password: bcrypt.hashSync('Samiksha@123',10),
         isAdmin:true,
     },
+    {
+        name : 'Samiksha Shinde',
+        email: 'ssshinde.omk@gmail.com',
+        password:bcrypt.hashSync('Samiksha@123',10),
+        isAdmin:true,
+    }
 
 ];
 

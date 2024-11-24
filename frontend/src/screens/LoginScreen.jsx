@@ -51,6 +51,7 @@ const LoginScreen = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault()
+    console.log("Login payload:", { email, password })
 
     // Validate password before submitting
     if (!validatePassword(password)) {
@@ -62,10 +63,12 @@ const LoginScreen = () => {
 
     try {
       const res = await login({ email, password }).unwrap()
+      console.log("Login successful, server response:", res)
       dispatch(setCredentials({ ...res }))
       navigate(redirect)
     } catch (err) {
-      toast.error(err?.data?.message || err.error)
+      //toast.error(err?.data?.message || err.error)
+      console.error("Login failed, error response:", err)
     }
   }
 
