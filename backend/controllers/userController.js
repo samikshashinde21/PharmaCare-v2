@@ -11,38 +11,28 @@ const authUser = asyncHandler(async (req, res) => {
 
   const { email, password } = req.body;
 
-  // Check if email and password are defined
   if (!email || !password) {
-    console.log("Missing email or password in the request body");
+  
     res.status(400).json({ message: "Email and password are required" });
     return;
   }
 
-  // Find the user by email
   const user = await User.findOne({ email });
-  console.log("User found in database:", user);
 
   if (!user) {
-    console.log("No user found with this email:", email);
     res.status(401).json({ message: "Invalid email or password" });
-    return;  // Exit if no user is found
+    return;  
   }
 
-  // Log the stored hashed password and the entered password
-  console.log("Stored hashed password:", user.password);
-  console.log("Entered password:", password);
-
-  // Check if password matches
   const isMatch = await user.matchPassword(password);
   console.log("Password match result:", isMatch);
 
   if (!isMatch) {
     console.log("Password mismatch for email:", email);
     res.status(401).json({ message: "Invalid email or password" });
-    return;  // Exit if passwords don't match
+    return;  
   }
 
-  // If user and password match, generate token and send response
   console.log("Login successful for user:", user.email);
   generateToken(res, user._id);
 
@@ -129,8 +119,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 
   const updateUserProfile = asyncHandler(async (req, res) => {
     console.log("Incoming profile update request body:", req.body);
-  
-    // Fetch the user by their ID
+
     const user = await User.findById(req.user._id);
     
     if (!user) {
@@ -138,24 +127,20 @@ const getUserProfile = asyncHandler(async (req, res) => {
       res.status(404).json({ message: 'User not found' });
       return;
     }
-  
-    // Update user's name and email, trimming to ensure no extra spaces
+ 
     user.name = req.body.name?.trim() || user.name;
     user.email = req.body.email?.trim() || user.email;
   
     if (req.body.password) {
-      // Only hash the password if it's plain text
-      const isPasswordAlreadyHashed = user.password.startsWith('$2a$'); // bcrypt hashed passwords start with this prefix
+      const isPasswordAlreadyHashed = user.password.startsWith('$2a$'); 
       if (!isPasswordAlreadyHashed) {
           user.password = bcrypt.hashSync(req.body.password, 10);
       }
   }
   
-    // Save the updated user information to the database
     const updatedUser = await user.save();
     console.log("User profile updated successfully:", updatedUser.email);
-  
-    // Respond with the updated user data
+
     res.status(200).json({
       _id: updatedUser._id,
       name: updatedUser.name,
